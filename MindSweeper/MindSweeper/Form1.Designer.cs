@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.GameOverLabel = new System.Windows.Forms.Label();
+            this.ResetButton = new System.Windows.Forms.Button();
+            this.WinLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // GameOverLabel
@@ -41,11 +43,32 @@
             this.GameOverLabel.Text = "Game Over!";
             this.GameOverLabel.Visible = false;
             // 
+            // ResetButton
+            // 
+            this.ResetButton.Location = new System.Drawing.Point(46, 76);
+            this.ResetButton.Name = "ResetButton";
+            this.ResetButton.Size = new System.Drawing.Size(75, 23);
+            this.ResetButton.TabIndex = 1;
+            this.ResetButton.Text = "Reset";
+            this.ResetButton.UseVisualStyleBackColor = true;
+            // 
+            // WinLabel
+            // 
+            this.WinLabel.AutoSize = true;
+            this.WinLabel.Location = new System.Drawing.Point(43, 31);
+            this.WinLabel.Name = "WinLabel";
+            this.WinLabel.Size = new System.Drawing.Size(60, 13);
+            this.WinLabel.TabIndex = 2;
+            this.WinLabel.Text = "Game Win!";
+            this.WinLabel.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 611);
+            this.Controls.Add(this.WinLabel);
+            this.Controls.Add(this.ResetButton);
             this.Controls.Add(this.GameOverLabel);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -58,6 +81,8 @@
         #endregion
 
         private System.Windows.Forms.Label GameOverLabel;
+        private System.Windows.Forms.Button ResetButton;
+        private System.Windows.Forms.Label WinLabel;
     }
 }
 
