@@ -13,10 +13,10 @@ namespace MindSweeper
 {
     public partial class Form1 : Form
     {
-        Tile[,] Board = new Tile[8, 10];
-        Button[] BombsLocations = new Button[10];
         int row = 8;
         int col = 10;
+        Tile[,] Board = new Tile[8, 10];
+        Button[] BombsLocations = new Button[10];
         int maxBombs = 10;
         int bombs = 0;
         public static bool firstClick = true;
@@ -29,6 +29,9 @@ namespace MindSweeper
         }
         private void Form1_Load(object sender, EventArgs e)
         {
+            int FormWidth = (row * 45) * 2 +(row * 45) / 2;
+            int FormHeight = (col * 45) + (col * 45)/2;
+            FindForm().Size = new Size(FormWidth, FormHeight);
             CreateBoard(Board);
         }
         private void CreateBoard(Tile[,] board)
@@ -78,10 +81,14 @@ namespace MindSweeper
                     }
                 }
             }
+            if (e.Button == MouseButtons.Right & e.Button == MouseButtons.Left)
+            {
+                WinLabel.Visible = true;
+            }
             if (e.Button == MouseButtons.Right)
             {
                 tile.SetFlag();
-            }
+            } 
         }
         private void PlantBombs(Tile[,] board, Button b)
         {
@@ -108,6 +115,16 @@ namespace MindSweeper
                 }
             }
         }
+        private void ResetBoard()
+        {
+            for (int i = 0; i < row; i++)
+            {
+                for (int j = 0; j < col; j++)
+                {
+
+                }
+            }
+        }
         public void ButtonClicks(object sender, EventArgs e)
         {
             Tile tile = null;
@@ -123,6 +140,10 @@ namespace MindSweeper
                 }
             }
             if (gameOver)
+            {
+                return;
+            }
+            if (tile.Flag)
             {
                 return;
             }
@@ -234,6 +255,7 @@ namespace MindSweeper
                 }
             }
         }
+        //if double click then reveal other tiles end if
         private void UncoverZeros(Button b)
         {
             Tile t = null;

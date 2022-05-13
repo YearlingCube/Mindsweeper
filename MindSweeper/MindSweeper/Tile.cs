@@ -20,7 +20,7 @@ namespace MindSweeper
         public int B_x;
         public int B_y;
         public bool isBomb;
-        bool Flag;
+        public bool Flag;
         public int num;
         public Tile(Button b, int x, int y)
         {
