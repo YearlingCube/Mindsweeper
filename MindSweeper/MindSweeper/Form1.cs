@@ -23,6 +23,9 @@ namespace MindSweeper
         bool gameOver = false;
         Bitmap bombImage = new Bitmap("C:\\Users\\matho347\\Desktop\\bomb.png");
         Bitmap FlagImage = new Bitmap("C:\\Users\\matho347\\Desktop\\1024px-Minesweeper_flag.svg.png");
+
+        bool MouseRight = false;
+        bool MouseLeft = false;
         public Form1()
         {
             InitializeComponent();
@@ -46,13 +49,15 @@ namespace MindSweeper
                     Button b = new Button();
                     Tile t = new Tile(b, i, j);
                     t.B_b.Location = new Point(x, y);
-                    t.B_b.Size = new Size(45, 45);
+                    //int ransize = new Random().Next(30, 60);
+                    t.B_b.Size = new Size(45,45);
                     t.B_b.Visible = true;
                     t.B_b.BackColor = Color.LimeGreen;
                     t.B_b.Font = new Font("Ravie", 22);
                     t.B_b.ForeColor = Color.LimeGreen;
                     t.B_b.Click += new EventHandler(this.ButtonClicks);
-                    t.B_b.MouseDown += new MouseEventHandler(this.ButtonRightClicks);
+                    t.B_b.MouseDown += new MouseEventHandler(this.ButtonMouseDown);
+                    t.B_b.MouseUp += new MouseEventHandler(this.ButtonMouseUp);
                     t.B_b.Text = string.Empty;
                     this.Controls.Add(t.B_b);
                     t.B_b.BackgroundImageLayout = ImageLayout.Stretch;
@@ -67,7 +72,7 @@ namespace MindSweeper
 
 
         }
-        public void ButtonRightClicks(object sender, MouseEventArgs e)
+        public void ButtonMouseDown(object sender, MouseEventArgs e)
         {
             Button t = (Button)sender;
             Tile tile = null;
@@ -81,14 +86,38 @@ namespace MindSweeper
                     }
                 }
             }
-            if (e.Button == MouseButtons.Right & e.Button == MouseButtons.Left)
-            {
-                WinLabel.Visible = true;
-            }
             if (e.Button == MouseButtons.Right)
             {
-                tile.SetFlag();
-            } 
+                MouseRight = true;
+            }
+            if (e.Button == MouseButtons.Left)
+            {
+                MouseLeft = true;
+            }
+            if (MouseLeft && MouseRight)
+            {
+                RevealSurrounding(tile);
+                
+            }
+            else if(MouseRight)
+            {
+                if (!tile.isFound)
+                {
+                    tile.SetFlag();
+                }
+
+            }
+        }
+        private void ButtonMouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                MouseRight = false;
+            }
+            if (e.Button == MouseButtons.Left)
+            {
+                MouseLeft = false;
+            }
         }
         private void PlantBombs(Tile[,] board, Button b)
         {
@@ -125,6 +154,143 @@ namespace MindSweeper
                 }
             }
         }
+        private void RevealSurrounding(Tile t)
+        {
+            int count = 0;
+            #region CountFlag
+            if (t.B_x + 1 > 7)
+            {
+            }
+            else if (Board[t.B_x + 1, t.B_y].Flag)
+            {
+                count++;
+            }
+            if (t.B_x - 1 < 0)
+            {
+            }
+            else if (Board[t.B_x -1, t.B_y].Flag)
+            {
+                count++;
+
+            }
+            if (t.B_y + 1 > 9)
+            {
+            }
+            else if (Board[t.B_x, t.B_y + 1].Flag)
+            {
+                count++;
+
+            }
+            if (t.B_y - 1 < 0)
+            {
+            }
+            else if (Board[t.B_x, t.B_y - 1].Flag)
+            {
+                count++;
+
+            }
+            if (t.B_x + 1 > 7 || t.B_y + 1 > 9)
+            {
+            }
+            else if (Board[t.B_x + 1, t.B_y + 1].Flag)
+            {
+                count++;
+
+            }
+            if (t.B_x - 1 < 0 || t.B_y - 1 < 0)
+            {
+            }
+            else if (Board[t.B_x - 1, t.B_y - 1].Flag)
+            {
+                count++;
+
+            }
+            if (t.B_x + 1 > 7 || t.B_y - 1 < 0)
+            {
+            }
+            else if (Board[t.B_x + 1, t.B_y - 1].Flag)
+            {
+                count++;
+
+            }
+            if (t.B_x - 1 < 0 || t.B_y + 1 > 9)
+            {
+            }
+            else if (Board[t.B_x - 1, t.B_y + 1].Flag)
+            {
+                count++;
+            }
+#endregion
+            if (count == t.num)
+            {
+                if (t.B_x + 1 > 7)
+                {
+                }
+                else if (!Board[t.B_x + 1, t.B_y].Flag)
+                {
+                    Board[t.B_x + 1, t.B_y].Reveal();
+                    UncoverZeros(Board[t.B_x + 1, t.B_y]);
+                }
+                if (t.B_x - 1 < 0)
+                {
+                }
+                else if (!Board[t.B_x - 1, t.B_y].Flag)
+                {
+                    Board[t.B_x - 1, t.B_y].Reveal();
+                    UncoverZeros(Board[t.B_x - 1, t.B_y]);
+                }
+                if (t.B_y + 1 > 9)
+                {
+                }
+                else if (!Board[t.B_x, t.B_y + 1].Flag)
+                {
+                    Board[t.B_x, t.B_y + 1].Reveal();
+                    UncoverZeros(Board[t.B_x, t.B_y + 1]);
+                }
+                if (t.B_y - 1 < 0)
+                {
+                }
+                else if (!Board[t.B_x, t.B_y - 1].Flag)
+                {
+                    Board[t.B_x, t.B_y - 1].Reveal();
+                    UncoverZeros(Board[t.B_x, t.B_y - 1]);
+
+                }
+                if (t.B_x + 1 > 7 || t.B_y + 1 > 9)
+                {
+                }
+                else if (!Board[t.B_x + 1, t.B_y + 1].Flag)
+                {
+                    Board[t.B_x + 1, t.B_y + 1].Reveal();
+                    UncoverZeros(Board[t.B_x + 1, t.B_y + 1]);
+                }
+                if (t.B_x - 1 < 0 || t.B_y - 1 < 0)
+                {
+                }
+                else if (!Board[t.B_x - 1, t.B_y - 1].Flag)
+                {
+                    Board[t.B_x - 1, t.B_y - 1].Reveal();
+                    UncoverZeros(Board[t.B_x - 1, t.B_y - 1]);
+                }
+                if (t.B_x + 1 > 7 || t.B_y - 1 < 0)
+                {
+                }
+                else if (!Board[t.B_x + 1, t.B_y - 1].Flag)
+                {
+                    Board[t.B_x + 1, t.B_y - 1].Reveal();
+                    UncoverZeros(Board[t.B_x + 1, t.B_y - 1]);
+
+                }
+                if (t.B_x - 1 < 0 || t.B_y + 1 > 9)
+                {
+                }
+                else if (!Board[t.B_x - 1, t.B_y + 1].Flag)
+                {
+                    Board[t.B_x - 1, t.B_y + 1].Reveal();
+                    UncoverZeros(Board[t.B_x - 1, t.B_y + 1]);
+                }
+            }
+        }
         public void ButtonClicks(object sender, EventArgs e)
         {
             Tile tile = null;
@@ -155,11 +321,11 @@ namespace MindSweeper
             }
             if (tile.num == 0)
             {
-                UncoverZeros(t);
+                UncoverZeros(tile);
             }
             else
             {
-                t.BackColor = Color.LightGray;
+                tile.Reveal();
                 t.BackgroundImage = null;
                 ColorNumber(t);
             }
@@ -256,20 +422,8 @@ namespace MindSweeper
             }
         }
         //if double click then reveal other tiles end if
-        private void UncoverZeros(Button b)
+        private void UncoverZeros(Tile t)
         {
-            Tile t = null;
-
-                for (int i = 0; i < row; i++)
-                {
-                    for (int j = 0; j < col; j++)
-                    {
-                        if (Board[i, j].B_b.Location.X == b.Location.X && Board[i, j].B_b.Location.Y == b.Location.Y)
-                        {
-                            t = Board[i, j];
-                        }
-                    }
-                }
             if (t.num == 0)
             {
                 if (t.B_x + 1 > 7)
@@ -277,15 +431,14 @@ namespace MindSweeper
                 }
                 else
                 {
-                    if (Board[t.B_x + 1, t.B_y].num == 0 && Board[t.B_x + 1, t.B_y].B_b.BackColor == Color.LimeGreen)
+                    if (Board[t.B_x + 1, t.B_y].num == 0 && Board[t.B_x + 1, t.B_y].isFound == false)
                     {
-                        Board[t.B_x + 1, t.B_y].B_b.BackColor = Color.LightGray;
-                        UncoverZeros(Board[t.B_x + 1, t.B_y].B_b);
+                        Board[t.B_x + 1, t.B_y].Reveal();
+                        UncoverZeros(Board[t.B_x + 1, t.B_y]);
                     }
                     else
                     {
-                        Board[t.B_x + 1, t.B_y].B_b.BackColor = Color.LightGray;
-                        ColorNumber(Board[t.B_x + 1, t.B_y].B_b);
+                        Board[t.B_x + 1, t.B_y].Reveal();
                     }
                 }
 
@@ -294,15 +447,14 @@ namespace MindSweeper
                 }
                 else
                 {
-                    if (Board[t.B_x + 1, t.B_y + 1].num == 0 && Board[t.B_x + 1, t.B_y + 1].B_b.BackColor == Color.LimeGreen)
+                    if (Board[t.B_x + 1, t.B_y + 1].num == 0 && Board[t.B_x + 1, t.B_y + 1].isFound == false)
                     {
-                        Board[t.B_x + 1, t.B_y + 1].B_b.BackColor = Color.LightGray;
-                        UncoverZeros(Board[t.B_x + 1, t.B_y + 1].B_b);
+                        Board[t.B_x + 1, t.B_y + 1].Reveal();
+                        UncoverZeros(Board[t.B_x + 1, t.B_y + 1]);
                     }
                     else
                     {
-                        Board[t.B_x + 1, t.B_y + 1].B_b.BackColor = Color.LightGray;
-                        ColorNumber(Board[t.B_x + 1, t.B_y + 1].B_b);
+                        Board[t.B_x + 1, t.B_y + 1].Reveal();
 
                     }
                 }
@@ -312,16 +464,14 @@ namespace MindSweeper
                 }
                 else
                 {
-                    if (Board[t.B_x, t.B_y + 1].num == 0 && Board[t.B_x, t.B_y + 1].B_b.BackColor == Color.LimeGreen)
+                    if (Board[t.B_x, t.B_y + 1].num == 0 && Board[t.B_x, t.B_y + 1].isFound == false)
                     {
-                        Board[t.B_x, t.B_y + 1].B_b.BackColor = Color.LightGray;
-                        UncoverZeros(Board[t.B_x, t.B_y + 1].B_b);
+                        Board[t.B_x, t.B_y + 1].Reveal();
+                        UncoverZeros(Board[t.B_x, t.B_y + 1]);
                     }
                     else
                     {
-                        Board[t.B_x, t.B_y + 1].B_b.BackColor = Color.LightGray;
-                        ColorNumber(Board[t.B_x, t.B_y + 1].B_b);
-
+                        Board[t.B_x, t.B_y + 1].Reveal();
                     }
                 }
 
@@ -330,16 +480,14 @@ namespace MindSweeper
                 }
                 else
                 {
-                    if (Board[t.B_x - 1, t.B_y - 1].num == 0 && Board[t.B_x - 1, t.B_y - 1].B_b.BackColor == Color.LimeGreen)
+                    if (Board[t.B_x - 1, t.B_y - 1].num == 0 && Board[t.B_x - 1, t.B_y - 1].isFound == false)
                     {
-                        Board[t.B_x - 1, t.B_y - 1].B_b.BackColor = Color.LightGray;
-                        UncoverZeros(Board[t.B_x - 1, t.B_y - 1].B_b);
+                        Board[t.B_x - 1, t.B_y - 1].Reveal();
+                        UncoverZeros(Board[t.B_x - 1, t.B_y - 1]);
                     }
                     else
                     {
-                        Board[t.B_x - 1, t.B_y - 1].B_b.BackColor = Color.LightGray;
-                        ColorNumber(Board[t.B_x - 1, t.B_y - 1].B_b);
-
+                        Board[t.B_x - 1, t.B_y - 1].Reveal();
                     }
                 }
 
@@ -348,16 +496,14 @@ namespace MindSweeper
                 }
                 else
                 {
-                    if (Board[t.B_x - 1, t.B_y].num == 0 && Board[t.B_x - 1, t.B_y].B_b.BackColor == Color.LimeGreen)
+                    if (Board[t.B_x - 1, t.B_y].num == 0 && Board[t.B_x - 1, t.B_y].isFound == false)
                     {
-                        Board[t.B_x - 1, t.B_y].B_b.BackColor = Color.LightGray;
-                        UncoverZeros(Board[t.B_x - 1, t.B_y].B_b);
+                        Board[t.B_x - 1, t.B_y].Reveal();
+                        UncoverZeros(Board[t.B_x - 1, t.B_y]);
                     }
                     else
                     {
-                        Board[t.B_x - 1, t.B_y].B_b.BackColor = Color.LightGray;
-                        ColorNumber(Board[t.B_x - 1, t.B_y].B_b);
-
+                        Board[t.B_x - 1, t.B_y].Reveal();
                     }
                 }
 
@@ -366,16 +512,14 @@ namespace MindSweeper
                 }
                 else
                 {
-                    if (Board[t.B_x, t.B_y - 1].num == 0 && Board[t.B_x, t.B_y - 1].B_b.BackColor == Color.LimeGreen)
+                    if (Board[t.B_x, t.B_y - 1].num == 0 && Board[t.B_x, t.B_y - 1].isFound == false)
                     {
-                        Board[t.B_x, t.B_y - 1].B_b.BackColor = Color.LightGray;
-                        UncoverZeros(Board[t.B_x, t.B_y - 1].B_b);
+                        Board[t.B_x, t.B_y - 1].Reveal();
+                        UncoverZeros(Board[t.B_x, t.B_y - 1]);
                     }
                     else
                     {
-                        Board[t.B_x, t.B_y - 1].B_b.BackColor = Color.LightGray;
-                        ColorNumber(Board[t.B_x, t.B_y - 1].B_b);
-
+                        Board[t.B_x, t.B_y - 1].Reveal();
                     }
                 }
 
@@ -385,16 +529,14 @@ namespace MindSweeper
                 }
                 else
                 {
-                    if (Board[t.B_x + 1, t.B_y - 1].num == 0 && Board[t.B_x + 1, t.B_y - 1].B_b.BackColor == Color.LimeGreen)
+                    if (Board[t.B_x + 1, t.B_y - 1].num == 0 && Board[t.B_x + 1, t.B_y - 1].isFound == false)
                     {
-                        Board[t.B_x + 1, t.B_y - 1].B_b.BackColor = Color.LightGray;
-                        UncoverZeros(Board[t.B_x + 1, t.B_y - 1].B_b);
+                        Board[t.B_x + 1, t.B_y - 1].Reveal();
+                        UncoverZeros(Board[t.B_x + 1, t.B_y - 1]);
                     }
                     else
                     {
-                        Board[t.B_x + 1, t.B_y - 1].B_b.BackColor = Color.LightGray;
-                        ColorNumber(Board[t.B_x + 1, t.B_y - 1].B_b);
-
+                        Board[t.B_x + 1, t.B_y - 1].Reveal();
                     }
                 }
 
@@ -403,16 +545,14 @@ namespace MindSweeper
                 }
                 else
                 {
-                    if (Board[t.B_x - 1, t.B_y + 1].num == 0 && Board[t.B_x - 1, t.B_y + 1].B_b.BackColor == Color.LimeGreen)
+                    if (Board[t.B_x - 1, t.B_y + 1].num == 0 && Board[t.B_x - 1, t.B_y + 1].isFound == false)
                     {
-                        Board[t.B_x - 1, t.B_y + 1].B_b.BackColor = Color.LightGray;
-                        UncoverZeros(Board[t.B_x - 1, t.B_y + 1].B_b);
+                        Board[t.B_x - 1, t.B_y + 1].Reveal();
+                        UncoverZeros(Board[t.B_x - 1, t.B_y + 1]);
                     }
                     else
                     {
-                        Board[t.B_x - 1, t.B_y + 1].B_b.BackColor = Color.LightGray;
-                        ColorNumber(Board[t.B_x - 1, t.B_y + 1].B_b);
-
+                        Board[t.B_x - 1, t.B_y + 1].Reveal();
                     }
                 }
             }
@@ -425,7 +565,7 @@ namespace MindSweeper
             {
                 for (int j = 0; j < col; j++)
                 {
-                    if (Board[i,j].isBomb == false && Board[i,j].B_b.BackColor == Color.LightGray)
+                    if (Board[i,j].isBomb == false && Board[i,j].isFound)
                     {
                         total++;
                     }

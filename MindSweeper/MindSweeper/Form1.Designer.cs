@@ -36,9 +36,10 @@
             // GameOverLabel
             // 
             this.GameOverLabel.AutoSize = true;
-            this.GameOverLabel.Location = new System.Drawing.Point(43, 18);
+            this.GameOverLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GameOverLabel.Location = new System.Drawing.Point(375, 20);
             this.GameOverLabel.Name = "GameOverLabel";
-            this.GameOverLabel.Size = new System.Drawing.Size(64, 13);
+            this.GameOverLabel.Size = new System.Drawing.Size(161, 31);
             this.GameOverLabel.TabIndex = 0;
             this.GameOverLabel.Text = "Game Over!";
             this.GameOverLabel.Visible = false;
@@ -55,9 +56,10 @@
             // WinLabel
             // 
             this.WinLabel.AutoSize = true;
-            this.WinLabel.Location = new System.Drawing.Point(43, 31);
+            this.WinLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.WinLabel.Location = new System.Drawing.Point(375, 20);
             this.WinLabel.Name = "WinLabel";
-            this.WinLabel.Size = new System.Drawing.Size(60, 13);
+            this.WinLabel.Size = new System.Drawing.Size(148, 31);
             this.WinLabel.TabIndex = 2;
             this.WinLabel.Text = "Game Win!";
             this.WinLabel.Visible = false;

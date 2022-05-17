@@ -1,7 +1,6 @@
 C:\Users\matho347\source\repos\MindSweeper\MindSweeper\bin\Debug\MindSweeper.exe.config
 C:\Users\matho347\source\repos\MindSweeper\MindSweeper\bin\Debug\MindSweeper.exe
 C:\Users\matho347\source\repos\MindSweeper\MindSweeper\bin\Debug\MindSweeper.pdb
-C:\Users\matho347\source\repos\MindSweeper\MindSweeper\obj\Debug\MindSweeper.csprojAssemblyReference.cache
 C:\Users\matho347\source\repos\MindSweeper\MindSweeper\obj\Debug\MindSweeper.Form1.resources
 C:\Users\matho347\source\repos\MindSweeper\MindSweeper\obj\Debug\MindSweeper.Properties.Resources.resources
 C:\Users\matho347\source\repos\MindSweeper\MindSweeper\obj\Debug\MindSweeper.csproj.GenerateResource.cache

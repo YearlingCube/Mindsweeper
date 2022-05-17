@@ -20,6 +20,7 @@ namespace MindSweeper
         public int B_x;
         public int B_y;
         public bool isBomb;
+        public bool isFound = false;
         public bool Flag;
         public int num;
         public Tile(Button b, int x, int y)
@@ -36,6 +37,59 @@ namespace MindSweeper
         public void SetNumber(int n)
         {
             num = n;
+        }
+        public void Reveal()
+        {
+            if (!isFound)
+            {
+                isFound = true;
+                B_b.BackColor = Color.LightGray;
+                B_b.BackgroundImage = null;
+                SetNumber();
+            }
+        }
+        private void SetNumber()
+        {
+            if(num == 1)
+            {
+                B_b.Text = "1";
+                B_b.ForeColor = Color.Blue;
+            }
+            else if (num == 2)
+            {
+                B_b.Text = "2";
+                B_b.ForeColor = Color.Green;
+            }
+            else if (num == 3)
+            {
+                B_b.Text = "3";
+                B_b.ForeColor = Color.Red;
+            }
+            else if (num == 4)
+            {
+                B_b.Text = "4";
+                B_b.ForeColor = Color.Purple;
+            }
+            else if (num == 5)
+            {
+                B_b.Text = "5";
+                B_b.ForeColor = Color.Maroon;
+            }
+            else if (num == 6)
+            {
+                B_b.Text = "6";
+                B_b.ForeColor = Color.Turquoise;
+            }
+            else if (num == 7)
+            {
+                B_b.Text = "7";
+                B_b.ForeColor = Color.Black;
+            }
+            else if (num == 8)
+            {
+                B_b.Text = "8";
+                B_b.ForeColor = Color.Gray;
+            }
         }
     }
 }
